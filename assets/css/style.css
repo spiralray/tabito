@@ -21,7 +21,7 @@ article, aside, figure, footer, header, hgroup, nav, section { display:block; ma
 body { background:#999; }
 
 
-div.place { background:#fff; margin:0px auto; width:830px; float: right; }
+div.place { background:#fff; margin:0px auto; width:850px; float: right; }
 div.btn{ margin:20px auto; float: left; }
 
 div.selected { background:#bbb; width:400px; margin:20px auto; float: left; text-align:left; overflow:auto; max-height:100vh; }
