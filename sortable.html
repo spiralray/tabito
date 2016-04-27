@@ -23,14 +23,39 @@ $(function() {
 		connectWith: '.jquery-ui-sortable',
 		placeholder: "",
 		cursor: 'move',
-		opacity: 0.5
-	});
-	$('.jquery-ui-sortable').sortable({
-		items: '> li:not(.unsortable)',
-		connectWith: '.jquery-ui-sortable',
-		placeholder: "",
-		cursor: 'move',
-		opacity: 0.5
+		opacity: 0.5,
+		revert: true,
+
+		start: function (e, ui) { //startの意味は、sortableの開始をトリガーとして、動くstart(event,ui)で書かれて、uiというオブジェクトの中にいろいろとさらなるオブジェクトが格納されている。
+			placeholderHeight = ui.item.outerHeight(); //掴んだ要素の高さを取得マージンをはいらない。.itemは今ドラッグしているもの
+			//console.log(ui.placeholder);//この時点では、ui.placeholder.heightの値は0
+			ui.placeholder.height(placeholderHeight + 15); //ui.placeholder.heightに、Plaiceholderの高さとして:afterを含めた高さを格納。
+			$('<div class="slide-placeholder-animator" data-height="' + placeholderHeight + '"></div>').insertAfter(ui.placeholder); //ui.placeholderにオブジェクトを格納。
+			//console.log(ui.placeholder)
+	
+		}, //次の関数に移れば、ui.placeholderの値はリセットされる(0になる。)のでは無いの？そうだと思う。
+		change: function (event, ui) { //*DOMが書き換わった後*の動いている途中の状態。
+			ui.placeholder.stop().height(0).animate({
+				height: ui.item.outerHeight() + 15
+			}, 300); //ui.placeholderの動きをストップして、ui.placeholderの高さを0にして、高さPlaceholder＋15までアニメートさせる？Placeholder(グレーの部分)の要素の高さ自体を広げる。
+	
+			placeholderAnimatorHeight = parseInt($(".slide-placeholder-animator").attr("data-height")); //.slide-placeholderのdata-height属性の数字を撮ってきている。parseInt()は文字列を整数に変換するグローバル関数。9行目のやつを取ってきてる。
+	
+			$(".slide-placeholder-animator").stop().height(placeholderAnimatorHeight + 15).animate({
+				height: 0
+			}, 300, function () { //このアニメーションは残りのSlide達の位置の処理ではないか？
+				$(this).remove();
+				placeholderHeight = ui.item.outerHeight() //また宣同じ内容を言している。。。なぜだ？
+				$('<div class="slide-placeholder-animator" data-height="' + placeholderHeight + '"></div>').insertAfter(ui.placeholder);
+			}); //ここでも同じ内容を宣言している。。
+
+	},
+	stop: function (e, ui) {
+
+		$(".slide-placeholder-animator").remove(); //.slide-placeholder-animatorここで察するに、少なくともRemoveする必要があるということ。
+
+	},
+
 	});
 });
 // -->
