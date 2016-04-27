@@ -24,8 +24,8 @@ body { background:#999; }
 div.place { background:#fff; margin:0px auto; width:830px; float: right; }
 div.btn{ margin:20px auto; float: left; }
 
-div.selected { background:#bbb; width:400px; margin:20px auto; float: left; }
-div.unselected { background:#bbb; width:400px; margin:20px auto; float: right;}
+div.selected { background:#bbb; width:400px; margin:20px auto; float: left; text-align:left; overflow:auto; max-height:100vh; }
+div.unselected { background:#bbb; width:400px; margin:20px auto; float: right; text-align:left; overflow:auto; max-height:100vh; }
 
 
 li.route { display:block; overflow:hidden; color:#333; background:#bbb; margin-bottom:10px; padding:5px; clear:both; }
@@ -34,6 +34,10 @@ li.place { display:block; overflow:hidden; color:#333; background:#ddd; margin-b
 li.place img { float:left; margin-right:10px; }
 
 li.place:hover { background-color: #eee; }
+
+ul{
+	min-height:50px;
+}
 
 
 body {
