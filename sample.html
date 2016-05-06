@@ -11,7 +11,8 @@
 <script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.js"></script>
 
-
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
+<script type="text/javascript" src="assets/js/map.js"></script>
 
 <script>
 <!--
@@ -30,15 +31,15 @@ $(function() {
 			ui.placeholder.height(placeholderHeight + 15); //ui.placeholder.heightに、Plaiceholderの高さとして:afterを含めた高さを格納。
 			$('<div class="slide-placeholder-animator" data-height="' + placeholderHeight + '"></div>').insertAfter(ui.placeholder); //ui.placeholderにオブジェクトを格納。
 			//console.log(ui.placeholder)
-	
+
 		}, //次の関数に移れば、ui.placeholderの値はリセットされる(0になる。)のでは無いの？そうだと思う。
 		change: function (event, ui) { //*DOMが書き換わった後*の動いている途中の状態。
 			ui.placeholder.stop().height(0).animate({
 				height: ui.item.outerHeight() + 15
 			}, 300); //ui.placeholderの動きをストップして、ui.placeholderの高さを0にして、高さPlaceholder＋15までアニメートさせる？Placeholder(グレーの部分)の要素の高さ自体を広げる。
-	
+
 			placeholderAnimatorHeight = parseInt($(".slide-placeholder-animator").attr("data-height")); //.slide-placeholderのdata-height属性の数字を撮ってきている。parseInt()は文字列を整数に変換するグローバル関数。9行目のやつを取ってきてる。
-	
+
 			$(".slide-placeholder-animator").stop().height(placeholderAnimatorHeight + 15).animate({
 				height: 0
 			}, 300, function () { //このアニメーションは残りのSlide達の位置の処理ではないか？
@@ -59,131 +60,61 @@ $(function() {
 // -->
 </script>
 
-
 </head>
-<body>
-<div id="wrapper">
-  <input type="checkbox" id="navTgl">
- 
-  <label for="navTgl" class="open">≡</label>
-  <label for="navTgl" class="close"></label>
-  <nav class="menu">
-<div class="place">
-<div class="selected">
+<body onload="initialize()">
+	<div id="wrapper">
+	  <input type="checkbox" id="navTgl">
 
-<ul class="jquery-ui-sortable">
+	  <label for="navTgl" class="open">≡</label>
+	  <label for="navTgl" class="close"></label>
+	  <nav class="menu">
+			<div class="place">
+				<div class="selected">
+					<ul class="jquery-ui-sortable">
 
-	<li class="place place-selected">
-		<img src="img/01.jpg" width="100" height="100">
-		金閣寺<br>
-	</li>
-	
-	<li class="route unsortable">経路</li>
-	
-	<li class="place place-selected">
-		<img src="img/02.jpg" width="100" height="100">
-		嵐山<br>
-	</li>
-	
-	<li class="route unsortable">経路</li>
-	
-	<li class="place place-selected">
-		<img src="img/03.jpg" width="100" height="100">
-		伏見稲荷大社<br>
-	</li>
-</ul>
+						<li class="place place-selected">
+							<img src="img/01.jpg" width="100" height="100">
+							金閣寺<br>
+						</li>
 
-</div>
+						<li class="route unsortable">経路</li>
+
+						<li class="place place-selected">
+							<img src="img/02.jpg" width="100" height="100">
+							嵐山<br>
+						</li>
+
+						<li class="route unsortable">経路</li>
+
+						<li class="place place-selected">
+							<img src="img/03.jpg" width="100" height="100">
+							伏見稲荷大社<br>
+						</li>
+					</ul>
+				</div>
 
 
-<div class="unselected">
+				<div class="unselected">
 
 
-<ul class="jquery-ui-sortable">
+					<ul class="jquery-ui-sortable">
+						<li class="place place-unselected">
+							<img src="img/04.jpg" width="100" height="100">
+							鈴虫寺<br>
+						</li>
 
-	<li class="place place-unselected">
-		<img src="img/04.jpg" width="100" height="100">
-		鈴虫寺<br>
-	</li>
-	
-	<li class="place place-unselected">
-		<img src="img/05.jpg" width="100" height="100">
-		平安神宮<br>
-	</li>
-	
-</ul>
-
-</div>
-</div>
-
+						<li class="place place-unselected">
+							<img src="img/05.jpg" width="100" height="100">
+							平安神宮<br>
+						</li>
+					</ul>
+				</div>
+		</div>
   </nav>
- 
-  <div class="contents">
-    <header>
-      <h1 class="logo">Lopan.jp</h1>
-    </header>
- 
-    <article>
-      <h1>Sample</h1>
-      <section id="article1">
-        <h2>なつかしくってあったかい、きりぎりす。</h2>
-        <figure>
-          <img src="http://lopan.jp/wp/wp-content/uploads/2014/01/title.png">
-          <figcaption>フォント好きな人がフォントについて熱く語る「LOVEFONT」という企画にあと乗りで、僕の好きなフォント「きりぎりす」について、語るってほどは語れませんが、記事にさせていただきます。<a href="#">この記事を読む</a></figcaption>
-        </figure>
-      </section>
- 
-      <section id="article2">
-        <h2>透明ノイズと紙テクスチャ。</h2>
-        <figure>
-          <img src="http://lopan.jp/wp/wp-content/uploads/2013/09/title.jpg">
-          <figcaption>ちょっとざらざらした質感とか、手触りを感じるテクスチャって、背景にさりげなく敷くだけで、ほんのり暖かみが出ていいですよね。そんなざらざらノイズ画像を半透明にした「透明ノイズ」のつくり方についてまとめてみました。<a href="#">この記事を読む</a></figcaption>
-        </figure>
-      </section>
- 
-      <section id="article3">
-        <h2>Webサイトの作り方のまとめ！ブラウザチェック。</h2>
-        <figure>
-          <img src="http://lopan.jp/wp/wp-content/uploads/2013/06/title.jpg">
-          <figcaption>トップページのコーディングがひと通り完了したので、下層ページのコーディングに移る前に、一旦ブラウザチェックしてみようと思います:)。ブラウザチェックからIEでの表示崩れを整えるまでのまとめです。<a href="#">この記事を読む</a></figcaption>
-        </figure>
-      </section>
- 
-      <section id="article4">
-        <h2>Photoshopのシェイプでできること。</h2>
-        <figure>
-          <img src="http://lopan.jp/wp/wp-content/uploads/2013/03/title.jpg">
-          <figcaption>拡大しても劣化しないし、ダブルクリックでカンタンに色を変えられるし、もちろんIllustratorでも使い回せる、そんなPhotoshopの万能シェイプの機能や特長について、個人的なまとめです。<a href="#">この記事を読む</a></figcaption>
-        </figure>
-      </section>
- 
-      <section id="article5">
-        <h2>CSSだけでスライドショーはつくれるよ。</h2>
-        <figure>
-          <img src="http://lopan.jp/wp/wp-content/uploads/2012/12/title.jpg">
-          <figcaption>CSS Programming Advent Calendar 2012、22日目のための記事です。前回の記事で作った、グローバルナビの下の大きめの画像のところを、CSSだけで実装してみました。<a href="#">この記事を読む</a></figcaption>
-        </figure>
-      </section>
-    </article>
- 
-    <footer>
-      <p class="copyright"><small>© Lopan.jp</small></p>
-    </footer>
-  </div>
-</div>
 
-<script type="text/javascript">
-<!--
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-27007852-1']);
-_gaq.push(['_trackPageview']);
-(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-// -->
-</script>
+</div>
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<div id="map"></div>
 
 </body>
 </html>
