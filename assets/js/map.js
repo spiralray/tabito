@@ -1,7 +1,9 @@
 function initialize() {
   var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 35.011770, lng: 135.768036},
-    zoom: 13
+    zoom: 13,
+    mapTypeControl: false,
+    disableDoubleClickZoom: true,
   });
 
   var input = document.getElementById('pac-input');
@@ -56,31 +58,11 @@ function initialize() {
     map.fitBounds(bounds);
   });
 
-  var infoWindow = new google.maps.InfoWindow({map: map});
-
-  // Try HTML5 geolocation.
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      map.setCenter(pos);
-    }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
+  // クリックイベントを追加
+  map.addListener('dblclick', function(e) {
+    new google.maps.Marker({
+      map: map,
+      position: e.latLng
     });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
-}
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
+  });
 }
