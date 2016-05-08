@@ -7,58 +7,70 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="assets/css/style.css">
 
-<script type="text/javascript" src="assets/js/jquery.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery.ui.touch-punch.js"></script>
+<link href='assets/css/fullcalendar.css' rel='stylesheet' />
+<link href='assets/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<script type="text/javascript" src='assets/js/moment.min.js'></script>
+<script type="text/javascript" src='assets/js/jquery.min.js'></script>
+<script type="text/javascript" src='assets/js/jquery-ui.custom.min.js'></script>
+<script type="text/javascript" src='assets/js/fullcalendar.min.js'></script>
+
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places"></script>
 <script type="text/javascript" src="assets/js/map.js"></script>
 
 <script>
-<!--
-$(function() {
-	$('.jquery-ui-sortable').sortable({
-		items: '> li:not(.unsortable)',
-		connectWith: '.jquery-ui-sortable',
-		placeholder: "",
-		cursor: 'move',
-		opacity: 0.5,
-		revert: true,
 
-		start: function (e, ui) { //startの意味は、sortableの開始をトリガーとして、動くstart(event,ui)で書かれて、uiというオブジェクトの中にいろいろとさらなるオブジェクトが格納されている。
-			placeholderHeight = ui.item.outerHeight(); //掴んだ要素の高さを取得マージンをはいらない。.itemは今ドラッグしているもの
-			//console.log(ui.placeholder);//この時点では、ui.placeholder.heightの値は0
-			ui.placeholder.height(placeholderHeight + 15); //ui.placeholder.heightに、Plaiceholderの高さとして:afterを含めた高さを格納。
-			$('<div class="slide-placeholder-animator" data-height="' + placeholderHeight + '"></div>').insertAfter(ui.placeholder); //ui.placeholderにオブジェクトを格納。
-			//console.log(ui.placeholder)
+	$(document).ready(function() {
 
-		}, //次の関数に移れば、ui.placeholderの値はリセットされる(0になる。)のでは無いの？そうだと思う。
-		change: function (event, ui) { //*DOMが書き換わった後*の動いている途中の状態。
-			ui.placeholder.stop().height(0).animate({
-				height: ui.item.outerHeight() + 15
-			}, 300); //ui.placeholderの動きをストップして、ui.placeholderの高さを0にして、高さPlaceholder＋15までアニメートさせる？Placeholder(グレーの部分)の要素の高さ自体を広げる。
 
-			placeholderAnimatorHeight = parseInt($(".slide-placeholder-animator").attr("data-height")); //.slide-placeholderのdata-height属性の数字を撮ってきている。parseInt()は文字列を整数に変換するグローバル関数。9行目のやつを取ってきてる。
+		/* initialize the external events
+		-----------------------------------------------------------------*/
 
-			$(".slide-placeholder-animator").stop().height(placeholderAnimatorHeight + 15).animate({
-				height: 0
-			}, 300, function () { //このアニメーションは残りのSlide達の位置の処理ではないか？
-				$(this).remove();
-				placeholderHeight = ui.item.outerHeight() //また宣同じ内容を言している。。。なぜだ？
-				$('<div class="slide-placeholder-animator" data-height="' + placeholderHeight + '"></div>').insertAfter(ui.placeholder);
-			}); //ここでも同じ内容を宣言している。。
+		$('#external-events .fc-event').each(function() {
 
-	},
-	stop: function (e, ui) {
+			// store data so the calendar knows to render an event upon drop
+			$(this).data('event', {
+				title: $.trim($(this).text()), // use the element's text as the event title
+				stick: true // maintain when user navigates (see docs on the renderEvent method)
+			});
 
-		$(".slide-placeholder-animator").remove(); //.slide-placeholder-animatorここで察するに、少なくともRemoveする必要があるということ。
+			// make the event draggable using jQuery UI
+			$(this).draggable({
+				zIndex: 999,
+				revert: true,      // will cause the event to go back to its
+				revertDuration: 0  //  original position after the drag
+			});
 
-	},
+		});
+
+
+		/* initialize the calendar
+		-----------------------------------------------------------------*/
+
+		$('#calendar').fullCalendar({
+			header: {
+				left: '',
+				center: 'title',
+				right: ''
+			},
+			contentHeight: document.getElementById("calendar").clientHeight,
+			defaultView: 'agendaDay', //初めの表示内容を指定　内容はこちらを参照→ http://fullcalendar.io/docs/views/Available_Views/
+			allDaySlot: false,
+			editable: true,
+			droppable: true, // this allows things to be dropped onto the calendar
+			drop: function() {
+				// is the "remove after drop" checkbox checked?
+				if ($('#drop-remove').is(':checked')) {
+					// if so, remove the element from the "Draggable Events" list
+					$(this).remove();
+				}
+			}
+		});
+
 
 	});
-});
 
-// -->
 </script>
 
 </head>
@@ -70,45 +82,20 @@ $(function() {
 	  <label for="navTgl" class="close"></label>
 	  <nav class="menu">
 			<div class="place">
-				<div class="selected">
-					<ul class="jquery-ui-sortable">
+				<div class="selected" id='calendar'>
 
-						<li class="place place-selected">
-							<img src="img/01.jpg" width="100" height="100">
-							金閣寺<br>
-						</li>
-
-						<li class="route unsortable">経路</li>
-
-						<li class="place place-selected">
-							<img src="img/02.jpg" width="100" height="100">
-							嵐山<br>
-						</li>
-
-						<li class="route unsortable">経路</li>
-
-						<li class="place place-selected">
-							<img src="img/03.jpg" width="100" height="100">
-							伏見稲荷大社<br>
-						</li>
-					</ul>
 				</div>
 
-
-				<div class="unselected">
-
-
-					<ul class="jquery-ui-sortable">
-						<li class="place place-unselected">
-							<img src="img/04.jpg" width="100" height="100">
-							鈴虫寺<br>
-						</li>
-
-						<li class="place place-unselected">
-							<img src="img/05.jpg" width="100" height="100">
-							平安神宮<br>
-						</li>
-					</ul>
+				<div id='external-events'>
+					<h4>Draggable Events</h4>
+					<div class='fc-event'>My Event 1</div>
+					<div class='fc-event'>My Event 2</div>
+					<div class='fc-event'>My Event 3</div>
+					<div class='fc-event'>My Event 4</div>
+					<div class='fc-event'>My Event 5</div>
+					<p>
+						<input type='checkbox' id='drop-remove' />
+					</p>
 				</div>
 		</div>
   </nav>
