@@ -155,6 +155,15 @@ div.btn{
 
 #external-events .fc-event {
   margin: 10px 0;
+}
+
+#external-events .selected {
+  margin: 10px 0;
+  background:#b22;
+  border:#811;
+}
+
+#external-events .unselected {
   cursor: pointer;
 }
 

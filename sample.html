@@ -28,7 +28,7 @@
 		/* initialize the external events
 		-----------------------------------------------------------------*/
 
-		$('#external-events .fc-event').each(function() {
+		$('#external-events .unselected').each(function() {
 
 			// store data so the calendar knows to render an event upon drop
 			$(this).data('event', {
@@ -61,11 +61,7 @@
 			editable: true,
 			droppable: true, // this allows things to be dropped onto the calendar
 			drop: function() {
-				// is the "remove after drop" checkbox checked?
-				if ($('#drop-remove').is(':checked')) {
-					// if so, remove the element from the "Draggable Events" list
-					$(this).remove();
-				}
+
 			}
 		});
 
@@ -89,14 +85,13 @@
 
 				<div id='external-events'>
 					<h4>Draggable Events</h4>
-					<div class='fc-event'>My Event 1</div>
-					<div class='fc-event'>My Event 2</div>
-					<div class='fc-event'>My Event 3</div>
-					<div class='fc-event'>My Event 4</div>
-					<div class='fc-event'>My Event 5</div>
-					<p>
-						<input type='checkbox' id='drop-remove' />
-					</p>
+					<div id='registered-places'>
+					  <div class='fc-event unselected'>My Event 1</div>
+					  <div class='fc-event selected'>My Event 2</div>
+					  <div class='fc-event unselected'>My Event 3</div>
+					  <div class='fc-event unselected'>My Event 4</div>
+					  <div class='fc-event unselected'>My Event 5</div>
+				  </div>
 				</div>
 		</div>
   </nav>
