@@ -2,7 +2,7 @@
 
 #map {
   position:absolute;
-  width: calc(100% - 430px);
+  width: calc(100% - 330px);
   height:100%;
   left:0%;
   top:0%;
@@ -20,7 +20,7 @@ label {
   cursor: pointer;
   position: fixed;
   top: 0;
-  right: 400px;
+  right: 300px;
   min-height: 100%;
 }
 
@@ -39,8 +39,8 @@ label {
 
 #navTgl:checked + .open {
   background-color: indianRed;
-  -webkit-transform: translateX(-400px);
-  transform: translateX(-400px);
+  -webkit-transform: translateX(-300px);
+  transform: translateX(-300px);
 }
 
 .close {
@@ -64,13 +64,13 @@ label {
   overflow: auto;
   top: 0;
   right: -00px;
-  width: 800px;
+  width: 600px;
   height: 100%;
   margin:0px;
   padding: 0px;
   background-color: rgb(0,0,0);
-  -webkit-transform: translateX(400px);
-  transform: translateX(400px);
+  -webkit-transform: translateX(300px);
+  transform: translateX(300px);
   -webkit-transition: -webkit-transform .6s;
   transition: transform .6s;
 }
@@ -122,7 +122,7 @@ div.place {
   background:#fff;
   margin:0px;
   padding: 0px;
-  width:800px;
+  width:600px;
   height: 100%;
   float: right;
 }
@@ -133,7 +133,7 @@ div.btn{
 
 #calendar {
   background:#bbb;
-  width:400px;
+  width:300px;
   height: 100%;
   max-height:100vh;
   margin:0px auto;
@@ -145,7 +145,7 @@ div.btn{
 
 #external-events {
   background:#aaa;
-  width:400px;
+  width:300px;
   max-height:100vh;
   margin: 0px auto;
   float: right;
