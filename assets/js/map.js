@@ -36,6 +36,7 @@ function initialize() {
     // For each place, get the icon, name and location.
     var bounds = new google.maps.LatLngBounds();
     places.forEach(function(place) {
+      /*
       var icon = {
         url: place.icon,
         size: new google.maps.Size(71, 71),
@@ -43,11 +44,12 @@ function initialize() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25)
       };
+      */
 
       // Create a marker for each place.
       search_markers.push(new google.maps.Marker({
         map: map,
-        icon: icon,
+        //icon: icon,
         title: place.name,
         position: place.geometry.location
       }));
