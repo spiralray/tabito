@@ -2,11 +2,24 @@ var stylesArrayMap = [  {    "featureType": "administrative.country",    "elemen
 var places = [];
 var new_marker = null;
 
-var infowindow = new google.maps.InfoWindow({
-  content: "test"
-});
+var infowindow = null;
 
 function initialize() {
+
+  $.ajax({
+         type: 'GET',
+         url: 'register_window.txt',
+         dataType: 'text',
+         success: function(data) {
+           infowindow = new google.maps.InfoWindow({
+             content: data
+           });
+         },
+         error:function() {
+             alert('問題がありました。');
+         }
+  });
+
   var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 35.011770, lng: 135.768036},
     zoom: 13,
