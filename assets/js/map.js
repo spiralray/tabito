@@ -53,14 +53,6 @@ function initialize() {
     },
 
     eventRender: function(event, element) {
-      //element.bind('dblclick', function() {
-      //	$('#calendar').fullCalendar('removeEvents', event._id); //Remove event
-      //});
-
-      element.append( "<span class='closeon'>X</span>" );
-      element.find(".closeon").bind('click', function() {
-        $('#calendar').fullCalendar('removeEvents',event._id);
-      });
     },
 
     eventClick: function (calEvent, jsEvent, view) {
@@ -165,19 +157,11 @@ function deletePlace(id){
   for(var i=0; i<places.length; i++){
     if( places[i].id == id ){
 
-      var selectedEvents = $('#calendar').fullCalendar('clientEvents', function(clEvent){
+      $('#calendar').fullCalendar('clientEvents', function(clEvent){
         if(clEvent.place.id == places[i].id){
-          return true;
-        }else{
-          return false;
+          $('#calendar').fullCalendar('removeEvents',clEvent._id);
         }
       });
-
-      console.log(selectedEvents);
-
-      for(event in selectedEvents){
-        $('#calendar').fullCalendar('removeEvents',event._id);
-      }
 
       places.splice( i, 1 ) ;
     }
