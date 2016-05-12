@@ -114,6 +114,10 @@ function initialize() {
 
 openInfoWindow = function(place){
   infowindow.open(map, place["marker"]);
+
+  var input = document.getElementById("btn_place_name");
+  input.onfocus = focusInput;
+
   document.getElementById("selected_place_id").value = place["id"];
   document.getElementById("btn_place_name").value = place["name"];
   document.getElementById("btn_place_description").value = place["description"];
@@ -141,6 +145,8 @@ map.addListener('dblclick', function(e) {
   });
 
   infowindow.setOptions({ maxWidth: 400 });
+
+  openInfoWindow(place);
 
 });
 }
@@ -232,4 +238,33 @@ function printRegisteredPlaces(){
     });
 
   });
+}
+
+function focusInput(e) {
+    if (e) {
+        (function(e){
+        setTimeout( function() {setFocus(e);});
+    })(e);
+    }
+}
+
+function setFocus(e) {
+    if (e) {
+        var targetTag = e.target;
+        targetTag.focus();
+        //とりあえず全選択、選択範囲指定したいときはbgnとendを適宜指定
+        var num = targetTag.value.length;
+        var bgn = 0;
+        var end = num;
+        if(typeof(targetTag.selectionStart) != "undefined"){
+            targetTag.selectionStart = bgn;
+            targetTag.selectionEnd = end;
+        } else if(document.selection) {
+            var range = targetTag.createTextRange();
+            range.collapse();
+            range.moveEnd( "character", bgn );
+            range.moveStart( "character", end );
+            range.select();
+        }
+    }
 }
