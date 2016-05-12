@@ -209,6 +209,13 @@ function placeInfoUpdated(){
   place["name"] = document.getElementById("btn_place_name").value;
   place["description"] = document.getElementById("btn_place_description").value;
   printRegisteredPlaces();
+
+  $('#calendar').fullCalendar('clientEvents', function(clEvent){
+    if(clEvent.place == place){
+      clEvent.title=place["name"];
+    }
+  });
+  $('#calendar').fullCalendar('rerenderEvents');
 }
 
 function printRegisteredPlaces(){
