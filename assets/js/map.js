@@ -163,16 +163,18 @@ function placeInfoUpdated(){
 function printRegisteredPlaces(){
   var str = "";
   for(var i=0; i<places.length; i++){
-    str += '<div class="fc-event unselected">' + places[i]["name"] + '<br>\n' + places[i]["description"] + '</div>';
+    str += '<div class="fc-event unselected" id="p' + places[i]["id"] + '">' + places[i]["name"] + '<br>\n' + places[i]["description"] + '</div>';
   }
   document.getElementById("registered-places").innerHTML = str;
 
   $('#external-events .unselected').each(function() {
-
+    var pid = $(this).attr('id').substr(1);
+    var place = getPlaceById(pid);
     // store data so the calendar knows to render an event upon drop
     $(this).data('event', {
-      title: $.trim($(this).text()), // use the element's text as the event title
-      stick: true // maintain when user navigates (see docs on the renderEvent method)
+      title: place["name"], // use the element's text as the event title
+      stick: true, // maintain when user navigates (see docs on the renderEvent method)
+      place_id: pid,
     });
 
     // make the event draggable using jQuery UI
