@@ -178,6 +178,7 @@ function printRegisteredPlaces(){
     // make the event draggable using jQuery UI
     $(this).draggable({
       zIndex: 999,
+      scroll: false,
       revert: true,      // will cause the event to go back to its
       revertDuration: 0  //  original position after the drag
     });
