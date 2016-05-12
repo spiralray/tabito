@@ -229,3 +229,5 @@ body {
   font-size: 13px;
   font-weight: 300;
 }
+
+.gm-style-iw + div {display: none;}
