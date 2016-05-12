@@ -36,7 +36,6 @@ function initialize() {
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
 
-
   $('#calendar').fullCalendar({
     header: {
       left: '',
@@ -61,10 +60,6 @@ function initialize() {
     }
 
   });
-
-
-
-
 
 
   var search_markers = [];
@@ -124,14 +119,21 @@ openInfoWindow = function(place){
   document.getElementById("btn_place_description").value = place["description"];
 }
 
+
 // クリックイベントを追加
+map.addListener('click', function(e) {
+  if( infowindow ){
+    infowindow.close();
+  }
+});
+
 map.addListener('dblclick', function(e) {
   var marker = new google.maps.Marker({
     map: map,
     position: e.latLng
   });
 
-  var place = addPlace("New place", "", marker );
+  var place = addPlace(null, "", marker );
 
   marker.addListener('click', function() {
     var place = getPlaceByMarker( marker );
@@ -144,6 +146,9 @@ map.addListener('dblclick', function(e) {
 }
 
 function addPlace(name, description, marker) {
+  if( name == null ){
+    name = "New place #"+place_id;
+  }
   places.push( {'id': place_id, 'name': name, 'description': description, 'marker': marker} );
   place_id += 1;
   printRegisteredPlaces();
@@ -169,7 +174,7 @@ function deletePlace(id){
 function getPlaceById(id){
   for(var i=0; i<places.length; i++){
     if( places[i].id == id ){
-        return places[i];
+      return places[i];
     }
   }
   return null;
@@ -178,7 +183,7 @@ function getPlaceById(id){
 function getPlaceByMarker(marker){
   for(var i=0; i<places.length; i++){
     if( places[i].marker == marker ){
-        return places[i];
+      return places[i];
     }
   }
   return null;
