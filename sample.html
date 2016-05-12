@@ -26,29 +26,6 @@
 <script>
 
 	$(document).ready(function() {
-
-
-		/* initialize the external events
-		-----------------------------------------------------------------*/
-
-		$('#external-events .unselected').each(function() {
-
-			// store data so the calendar knows to render an event upon drop
-			$(this).data('event', {
-				title: $.trim($(this).text()), // use the element's text as the event title
-				stick: true // maintain when user navigates (see docs on the renderEvent method)
-			});
-
-			// make the event draggable using jQuery UI
-			$(this).draggable({
-				zIndex: 999,
-				revert: true,      // will cause the event to go back to its
-				revertDuration: 0  //  original position after the drag
-			});
-
-		});
-
-
 		/* initialize the calendar
 		-----------------------------------------------------------------*/
 
@@ -86,14 +63,9 @@
 
 				</div>
 
-				<div id='external-events'>
+				<div id="external-events">
 					<h4>Draggable Events</h4>
-					<div id='registered-places'>
-					  <div class='fc-event unselected'>My Event 1</div>
-					  <div class='fc-event selected'>My Event 2</div>
-					  <div class='fc-event unselected'>My Event 3</div>
-					  <div class='fc-event unselected'>My Event 4</div>
-					  <div class='fc-event unselected'>My Event 5</div>
+					<div id="registered-places">
 				  </div>
 				</div>
 		</div>

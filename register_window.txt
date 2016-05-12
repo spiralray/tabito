@@ -1,13 +1,10 @@
-<div class="container">
-    <form class="form-inline">
-        <div class="form-group">
-            <input type="text" name="name" class="form-control">
-        </div>
-
-        <div class="form-group">
-            <input type="text" name="password" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-default">Register</button>
-    </form>
+<div class="form-group">
+  <input type="hidden" name="selected_place_id" value="" id="selected_place_id">
+  <div class="input-group col-sm-12">
+    <input type="text" class="form-control" id="btn_place_name" onkeyup="placeInfoUpdated()">
+    <span class="input-group-addon"><a href="javascript:void(0);" onclick="deleteThisPlace();"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></span>
+  </div>
+  <div class="input-group col-sm-12">
+    <textarea class="form-control" name="description" rows="3" id="btn_place_description" onkeyup="placeInfoUpdated()" ></textarea>
+  </div>
 </div>
-
