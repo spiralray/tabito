@@ -56,8 +56,6 @@ function initialize() {
     },
 
     eventClick: function (calEvent, jsEvent, view) {
-      //$('#calendar').fullCalendar('removeEvents', calEvent._id);
-      console.log(jsEvent);
       map.setCenter(calEvent.marker.getPosition());
       openInfoWindow(calEvent.place);
     }
@@ -137,7 +135,6 @@ map.addListener('dblclick', function(e) {
 
   marker.addListener('click', function() {
     var place = getPlaceByMarker( marker );
-    console.log(place);
     openInfoWindow(place);
   });
 
