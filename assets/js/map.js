@@ -1,6 +1,5 @@
 var stylesArrayMap = [  {    "featureType": "administrative.country",    "elementType": "geometry.stroke",    "stylers": [      { "saturation": -100 },      { "visibility": "off" }    ]  },{    "featureType": "road",    "elementType": "geometry.stroke",    "stylers": [      { "saturation": -100 },      { "weight": 0.5 },      { "visibility": "on" }    ]  },{    "featureType": "landscape",    "stylers": [      { "saturation": -100 },      { "visibility": "simplified" }    ]  },{    "stylers": [      { "saturation": -100 }    ]  },{    "featureType": "landscape.natural",    "elementType": "geometry",    "stylers": [      { "saturation": -100 },      { "lightness": 28 }    ]  },{    "featureType": "road.highway",    "stylers": [      { "saturation": -87 },      { "lightness": 64 }    ]  },{    "featureType": "water",    "stylers": [      { "saturation": -100 },      { "gamma": 0.5 }    ]  },{    "featureType": "poi.park",    "elementType": "geometry",    "stylers": [      { "saturation": -100 },      { "lightness": 82 }    ]  },{    "featureType": "road.arterial",    "elementType": "labels",    "stylers": [      { "visibility": "off" },      { "saturation": 74 }    ]  },{    "featureType": "transit.station.airport",    "elementType": "geometry",    "stylers": [      { "visibility": "on" },      { "saturation": -100 },      { "lightness": -22 },      { "gamma": 0.7 }    ]  },{    "featureType": "landscape",    "stylers": [      { "saturation": -100 }    ]  },{    "featureType": "road",    "elementType": "labels",    "stylers": [      { "lightness": 24 },      { "visibility": "off" },      { "saturation": -100 }    ]  },{    "featureType": "transit.line",    "elementType": "labels.text",    "stylers": [      { "visibility": "off" }    ]  },{    "featureType": "poi",    "elementType": "labels.icon",    "stylers": [      { "saturation": -100 },      { "gamma": 0.81 }    ]  },{    "featureType": "transit.line",    "stylers": [      { "saturation": -100 },      { "lightness": -4 }    ]  },{    "featureType": "administrative.locality",    "elementType": "labels.text",    "stylers": [      { "visibility": "off" }    ]  },{    "featureType": "transit.station",    "elementType": "labels.icon",    "stylers": [      { "visibility": "on" },      { "saturation": -100 },      { "gamma": 0.7 }    ]  },{    "featureType": "administrative.province",    "elementType": "geometry",    "stylers": [      { "visibility": "off" }    ]  },{    "featureType": "administrative.province",    "elementType": "labels.text",    "stylers": [      { "saturation": -100 },      { "gamma": 0.6 }    ]  },{    "featureType": "poi",    "stylers": [      { "saturation": -100 },      { "gamma": 0.96 },      { "visibility": "simplified" }    ]  },{    "featureType": "road.arterial",    "elementType": "labels.icon",    "stylers": [      { "visibility": "off" }    ]  },{    "featureType": "poi",    "elementType": "labels.text",    "stylers": [      { "visibility": "simplified" },      { "lightness": 38 }    ]  }]
 var places = [];
-var selected_marker = null;
 
 var infowindow = null;
 var place_id = 0;
@@ -24,7 +23,7 @@ function initialize() {
 
   printRegisteredPlaces();
 
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 35.011770, lng: 135.768036},
     zoom: 13,
     mapTypeControl: false,
@@ -35,6 +34,48 @@ function initialize() {
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+
+
+  $('#calendar').fullCalendar({
+    header: {
+      left: '',
+      center: 'title',
+      right: ''
+    },
+    contentHeight: document.getElementById("calendar").clientHeight-60,
+    defaultView: 'agendaDay', //初めの表示内容を指定　内容はこちらを参照→ http://fullcalendar.io/docs/views/Available_Views/
+    allDaySlot: false,
+    editable: true,
+    droppable: true, // this allows things to be dropped onto the calendar
+    drop: function() {
+
+    },
+
+    eventRender: function(event, element) {
+      //element.bind('dblclick', function() {
+      //	$('#calendar').fullCalendar('removeEvents', event._id); //Remove event
+      //});
+
+      element.append( "<span class='closeon'>X</span>" );
+      element.find(".closeon").bind('click', function() {
+        $('#calendar').fullCalendar('removeEvents',event._id);
+      });
+    },
+
+    eventClick: function (calEvent, jsEvent, view) {
+      //$('#calendar').fullCalendar('removeEvents', calEvent._id);
+      console.log(jsEvent);
+      map.setCenter(calEvent.marker.getPosition());
+      openInfoWindow(calEvent.place);
+    }
+
+  });
+
+
+
+
+
 
   var search_markers = [];
   // Bias the SearchBox results towards current map's viewport.
@@ -86,6 +127,13 @@ function initialize() {
   map.fitBounds(bounds);
 });
 
+openInfoWindow = function(place){
+  infowindow.open(map, place["marker"]);
+  document.getElementById("selected_place_id").value = place["id"];
+  document.getElementById("btn_place_name").value = place["name"];
+  document.getElementById("btn_place_description").value = place["description"];
+}
+
 // クリックイベントを追加
 map.addListener('dblclick', function(e) {
   var marker = new google.maps.Marker({
@@ -93,16 +141,12 @@ map.addListener('dblclick', function(e) {
     position: e.latLng
   });
 
-  var place = addPlace("New place", "description", marker.getPosition().lat(), marker.getPosition().lng() );
+  var place = addPlace("New place", "", marker );
 
   marker.addListener('click', function() {
-    selected_marker = marker;
-    var place = getPlaceByPosition( marker.getPosition() );
+    var place = getPlaceByMarker( marker );
     console.log(place);
-    infowindow.open(map, marker);
-    document.getElementById("selected_place_id").value = place["id"];
-    document.getElementById("btn_place_name").value = place["name"];
-    document.getElementById("btn_place_description").value = place["description"];
+    openInfoWindow(place);
   });
 
   infowindow.setOptions({ maxWidth: 400 });
@@ -110,8 +154,8 @@ map.addListener('dblclick', function(e) {
 });
 }
 
-function addPlace(name, description, lat, lng) {
-  places.push( {'id': place_id, 'name': name, 'description': description, 'lat': lat, 'lng': lng} );
+function addPlace(name, description, marker) {
+  places.push( {'id': place_id, 'name': name, 'description': description, 'marker': marker} );
   place_id += 1;
   printRegisteredPlaces();
   return places[places.length-1];
@@ -120,6 +164,21 @@ function addPlace(name, description, lat, lng) {
 function deletePlace(id){
   for(var i=0; i<places.length; i++){
     if( places[i].id == id ){
+
+      var selectedEvents = $('#calendar').fullCalendar('clientEvents', function(clEvent){
+        if(clEvent.place.id == places[i].id){
+          return true;
+        }else{
+          return false;
+        }
+      });
+
+      console.log(selectedEvents);
+
+      for(event in selectedEvents){
+        $('#calendar').fullCalendar('removeEvents',event._id);
+      }
+
       places.splice( i, 1 ) ;
     }
   }
@@ -135,9 +194,9 @@ function getPlaceById(id){
   return null;
 }
 
-function getPlaceByPosition(latlng){
+function getPlaceByMarker(marker){
   for(var i=0; i<places.length; i++){
-    if( places[i].lat == latlng.lat() && places[i].lng == latlng.lng() ){
+    if( places[i].marker == marker ){
         return places[i];
     }
   }
@@ -146,9 +205,9 @@ function getPlaceByPosition(latlng){
 
 function deleteThisPlace(){
   var id = document.getElementById("selected_place_id").value;
-  //var place = getPlaceById(id);
+  var place = getPlaceById(id);
 
-  selected_marker.setMap(null);
+  place["marker"].setMap(null);
   deletePlace(id);
 }
 
@@ -174,7 +233,8 @@ function printRegisteredPlaces(){
     $(this).data('event', {
       title: place["name"], // use the element's text as the event title
       stick: true, // maintain when user navigates (see docs on the renderEvent method)
-      place_id: pid,
+      'place': place,
+      'marker': place["marker"],
     });
 
     // make the event draggable using jQuery UI
