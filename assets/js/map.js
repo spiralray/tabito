@@ -4,6 +4,8 @@ var places = [];
 var infowindow = null;
 var place_id = 0;
 
+var directionsRenderers = [];
+
 function initialize() {
 
   $.ajax({
@@ -46,10 +48,25 @@ function initialize() {
     defaultView: 'agendaDay', //初めの表示内容を指定　内容はこちらを参照→ http://fullcalendar.io/docs/views/Available_Views/
     allDaySlot: false,
     editable: true,
+    forceEventDuration: true,
+    displayEventEnd: true,
     longPressDelay: 300,
     droppable: true, // this allows things to be dropped onto the calendar
-    drop: function() {
+    eventReceive: function( event ) {
+      console.log("eventReceive");
+      calcRoute( $('#calendar').fullCalendar('clientEvents') );
+    },
 
+    eventDrop: function(event, delta, revertFunc)
+    {
+      console.log("eventDrop");
+      calcRoute( $('#calendar').fullCalendar('clientEvents') );
+    },
+
+    eventResize: function(event, delta, revertFunc, jsEvent, ui, view)
+    {
+      console.log("eventResize");
+      calcRoute( $('#calendar').fullCalendar('clientEvents') );
     },
 
     eventRender: function(event, element) {
@@ -176,6 +193,7 @@ function deletePlace(id){
     }
   }
   printRegisteredPlaces();
+  calcRoute( $('#calendar').fullCalendar('clientEvents') );
 }
 
 function getPlaceById(id){
@@ -248,31 +266,79 @@ function printRegisteredPlaces(){
   });
 }
 
+function calcRoute( events )
+{
+  console.log("calcRoute");
+
+  for (var i = 0; i < directionsRenderers.length; i++) {
+    directionsRenderers[i].setMap(null);
+  }
+  directionsRenderers = [];
+
+  //Sort by event start time
+  events.sort(function(a,b){
+    if( a._start < b._start ) return -1;
+    if( a._start > b._start ) return 1;
+    return 0;
+  });
+  //console.log(events);
+  for (var i = 0; i < events.length-1; i++) {
+    //console.log( events[i].title + ' ' + events[i]._start );
+    new google.maps.DirectionsService().route(
+      {
+        origin: events[i].marker.getPosition(),
+        destination: events[i+1].marker.getPosition(),
+        travelMode: google.maps.DirectionsTravelMode.TRANSIT,
+        transitOptions: {
+          departureTime: new Date(events[i].end),
+          routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
+        },
+      },
+      function(result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          //console.log(result);
+          var directionsRenderer = new google.maps.DirectionsRenderer(
+            {
+              "map": map,
+              suppressMarkers : true,
+              //suppressInfoWindows : true,
+              preserveViewport:true
+            }
+          );
+          directionsRenderer.setDirections(result);
+          directionsRenderers.push(directionsRenderer);
+          console.log(directionsRenderers);
+        }
+      }
+    );
+  }
+}
+
 function focusInput(e) {
-    if (e) {
-        (function(e){
-        setTimeout( function() {setFocus(e);});
+  if (e) {
+    (function(e){
+      setTimeout( function() {setFocus(e);});
     })(e);
-    }
+  }
 }
 
 function setFocus(e) {
-    if (e) {
-        var targetTag = e.target;
-        targetTag.focus();
-        //とりあえず全選択、選択範囲指定したいときはbgnとendを適宜指定
-        var num = targetTag.value.length;
-        var bgn = 0;
-        var end = num;
-        if(typeof(targetTag.selectionStart) != "undefined"){
-            targetTag.selectionStart = bgn;
-            targetTag.selectionEnd = end;
-        } else if(document.selection) {
-            var range = targetTag.createTextRange();
-            range.collapse();
-            range.moveEnd( "character", bgn );
-            range.moveStart( "character", end );
-            range.select();
-        }
+  if (e) {
+    var targetTag = e.target;
+    targetTag.focus();
+    //とりあえず全選択、選択範囲指定したいときはbgnとendを適宜指定
+    var num = targetTag.value.length;
+    var bgn = 0;
+    var end = num;
+    if(typeof(targetTag.selectionStart) != "undefined"){
+      targetTag.selectionStart = bgn;
+      targetTag.selectionEnd = end;
+    } else if(document.selection) {
+      var range = targetTag.createTextRange();
+      range.collapse();
+      range.moveEnd( "character", bgn );
+      range.moveStart( "character", end );
+      range.select();
     }
+  }
 }
