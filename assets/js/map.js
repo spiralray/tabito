@@ -46,6 +46,7 @@ function initialize() {
     defaultView: 'agendaDay', //初めの表示内容を指定　内容はこちらを参照→ http://fullcalendar.io/docs/views/Available_Views/
     allDaySlot: false,
     editable: true,
+    longPressDelay: 500,
     droppable: true, // this allows things to be dropped onto the calendar
     drop: function() {
 
