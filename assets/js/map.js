@@ -17,7 +17,7 @@ function initialize() {
       });
     },
     error:function() {
-      alert('問題がありました。');
+      alert('Failed loading register_window.txt');
     }
   });
 
@@ -213,9 +213,9 @@ function placeInfoUpdated(){
   $('#calendar').fullCalendar('clientEvents', function(clEvent){
     if(clEvent.place == place){
       clEvent.title=place["name"];
+      $('#calendar').fullCalendar('updateEvent', clEvent);
     }
   });
-  $('#calendar').fullCalendar('rerenderEvents');
 }
 
 function printRegisteredPlaces(){
