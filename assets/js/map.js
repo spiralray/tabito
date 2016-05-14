@@ -307,7 +307,6 @@ function calcRoute( events )
           );
           directionsRenderer.setDirections(result);
           directionsRenderers.push(directionsRenderer);
-          console.log(directionsRenderers);
         }
       }
     );
