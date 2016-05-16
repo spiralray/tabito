@@ -33,6 +33,40 @@ function initialize() {
     styles: stylesArrayMap,
   });
 
+  directionsDisplay       = new google.maps.DirectionsRenderer({
+    map:map,
+    polylineOptions:{
+      strokeColor:'red'
+    }});
+
+    google.maps.Polyline.prototype.setMap=(function(f,r){
+
+      return function(map){
+        if(
+          this.get('icons')
+          &&
+          this.get('icons').length===1
+          &&
+          this.get('strokeOpacity')===0
+          &&
+          !this.get('noRoute')
+        ){
+          if(r.get('polylineOptions')&& r.get('polylineOptions').strokeColor){
+
+            var icons=this.get('icons'),
+            color=r.get('polylineOptions').strokeColor;
+            icons[0].icon.fillOpacity=1;
+            icons[0].icon.fillColor=color;
+            icons[0].icon.strokeColor=color;
+            this.set('icons',icons);
+          }}
+          f.apply(this,arguments);
+        }
+
+      })(
+        google.maps.Polyline.prototype.setMap,
+        directionsDisplay);
+
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -296,17 +330,25 @@ function calcRoute( events )
       },
       function(result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
-          //console.log(result);
+          console.log(result);
+
           var directionsRenderer = new google.maps.DirectionsRenderer(
             {
-              "map": map,
+              polylineOptions: {
+                strokeColor: '#FF0000',
+                strokeWeight: 2,
+                strokeOpacity: 0.7
+              },
               suppressMarkers : true,
-              //suppressInfoWindows : true,
-              preserveViewport:true
+              preserveViewport: true,
             }
           );
+          directionsRenderer.setMap(map);
           directionsRenderer.setDirections(result);
           directionsRenderers.push(directionsRenderer);
+        }
+        else{
+          alert ('Failed to get directions');
         }
       }
     );
