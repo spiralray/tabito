@@ -219,7 +219,7 @@ function deletePlace(id){
     if( places[i].id == id ){
 
       $('#calendar').fullCalendar('clientEvents', function(clEvent){
-        if(clEvent.place.id == places[i].id){
+        if( typeof clEvent.place !== "undefined" && clEvent.place.id == places[i].id){
           $('#calendar').fullCalendar('removeEvents',clEvent._id);
         }
       });
