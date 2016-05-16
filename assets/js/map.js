@@ -342,7 +342,7 @@ function calcRoute()
           console.log(result);
 
           var total_duration = 0;
-          for (var i = 0; i < events.length-1; i++) {
+          for (var i = 0; i < result.routes[0].legs.length; i++) {
             total_duration += result.routes[0].legs[i].duration.value;
           }
           console.log(total_duration);
