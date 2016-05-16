@@ -108,8 +108,16 @@ function initialize() {
     },
 
     eventClick: function (calEvent, jsEvent, view) {
-      map.setCenter(calEvent.marker.getPosition());
-      openInfoWindow(calEvent.place);
+      if( calEvent.move == false ){
+        map.setCenter(calEvent.marker.getPosition());
+        openInfoWindow(calEvent.place);
+      }
+      else{
+        calEvent.renderer.setMap(null);
+        calEvent.renderer.setMap(map);
+        calEvent.renderer.preserveViewport = false;
+        calEvent.renderer.setDirections(calEvent.direction);
+      }
     }
 
   });
@@ -288,6 +296,7 @@ function printRegisteredPlaces(){
       stick: true, // maintain when user navigates (see docs on the renderEvent method)
       'place': place,
       'marker': place["marker"],
+      'move': false,
     });
 
     // make the event draggable using jQuery UI
@@ -347,20 +356,6 @@ function calcRoute()
           }
           console.log(total_duration);
 
-          var moveEvent = {
-            title:"Movement",
-            allDay: false,
-            start: result.request.transitOptions.departureTime,
-            end: new Date(result.request.transitOptions.departureTime.getTime()+total_duration*1000),
-            move: true,
-            color: 'white',
-            textColor: 'black'
-          };
-          console.log(moveEvent.start);
-          console.log(moveEvent.end);
-          //$('#calendar').fullCalendar('addEventSource', moveEvent )
-          $('#calendar').fullCalendar('renderEvent', moveEvent, true );
-
           var directionsRenderer = new google.maps.DirectionsRenderer(
             {
               polylineOptions: {
@@ -375,6 +370,20 @@ function calcRoute()
           directionsRenderer.setMap(map);
           directionsRenderer.setDirections(result);
           directionsRenderers.push(directionsRenderer);
+
+          var moveEvent = {
+            title:"Movement",
+            allDay: false,
+            start: result.request.transitOptions.departureTime,
+            end: new Date(result.request.transitOptions.departureTime.getTime()+total_duration*1000),
+            color: 'white',
+            textColor: 'black',
+            move: true,
+            direction: result,
+            renderer: directionsRenderer,
+          };
+          $('#calendar').fullCalendar('renderEvent', moveEvent, true );
+
         }
         else{
           alert ('Failed to get directions');
