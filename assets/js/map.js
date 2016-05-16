@@ -332,6 +332,12 @@ function calcRoute( events )
         if (status == google.maps.DirectionsStatus.OK) {
           console.log(result);
 
+          var total_duration = 0;
+          for (var i = 0; i < events.length-1; i++) {
+            total_duration += result.routes[0].legs[i].duration.value;
+          }
+          console.log(total_duration);
+
           var directionsRenderer = new google.maps.DirectionsRenderer(
             {
               polylineOptions: {
