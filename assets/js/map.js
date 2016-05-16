@@ -80,6 +80,7 @@ function initialize() {
     },
     contentHeight: document.getElementById("calendar").clientHeight-60,
     defaultView: 'agendaDay', //初めの表示内容を指定　内容はこちらを参照→ http://fullcalendar.io/docs/views/Available_Views/
+    timezone: 'local',
     allDaySlot: false,
     editable: true,
     forceEventDuration: true,
@@ -88,19 +89,19 @@ function initialize() {
     droppable: true, // this allows things to be dropped onto the calendar
     eventReceive: function( event ) {
       console.log("eventReceive");
-      calcRoute( $('#calendar').fullCalendar('clientEvents') );
+      calcRoute();
     },
 
     eventDrop: function(event, delta, revertFunc)
     {
       console.log("eventDrop");
-      calcRoute( $('#calendar').fullCalendar('clientEvents') );
+      calcRoute();
     },
 
     eventResize: function(event, delta, revertFunc, jsEvent, ui, view)
     {
       console.log("eventResize");
-      calcRoute( $('#calendar').fullCalendar('clientEvents') );
+      calcRoute();
     },
 
     eventRender: function(event, element) {
@@ -227,7 +228,7 @@ function deletePlace(id){
     }
   }
   printRegisteredPlaces();
-  calcRoute( $('#calendar').fullCalendar('clientEvents') );
+  calcRoute();
 }
 
 function getPlaceById(id){
@@ -300,9 +301,17 @@ function printRegisteredPlaces(){
   });
 }
 
-function calcRoute( events )
+function calcRoute()
 {
   console.log("calcRoute");
+
+  $('#calendar').fullCalendar('clientEvents', function(clEvent){
+    if(clEvent.move == true ){
+      $('#calendar').fullCalendar('removeEvents',clEvent._id);
+    }
+  });
+
+  var events = $('#calendar').fullCalendar('clientEvents')
 
   for (var i = 0; i < directionsRenderers.length; i++) {
     directionsRenderers[i].setMap(null);
@@ -337,6 +346,20 @@ function calcRoute( events )
             total_duration += result.routes[0].legs[i].duration.value;
           }
           console.log(total_duration);
+
+          var moveEvent = {
+            title:"Movement",
+            allDay: false,
+            start: result.request.transitOptions.departureTime,
+            end: new Date(result.request.transitOptions.departureTime.getTime()+total_duration*1000),
+            move: true,
+            color: 'white',
+            textColor: 'black'
+          };
+          console.log(moveEvent.start);
+          console.log(moveEvent.end);
+          //$('#calendar').fullCalendar('addEventSource', moveEvent )
+          $('#calendar').fullCalendar('renderEvent', moveEvent, true );
 
           var directionsRenderer = new google.maps.DirectionsRenderer(
             {
