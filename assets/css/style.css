@@ -2,7 +2,7 @@
 
 #map {
   position:absolute;
-  width: calc(100% - 330px);
+  width: calc(100% - 290px);
   height:100%;
   left:0%;
   top:0%;
@@ -16,31 +16,30 @@
   overflow: hidden;
 }
 
-label {
+label.open {
   cursor: pointer;
   position: fixed;
-  top: 0;
-  right: 300px;
-  min-height: 100%;
-}
-
-.open {
+  top: 10px;
+  right: 10px;
   z-index: 2;
-  width: 30px;
-  height: 50px;
-  color: white;
-  background-color: lightSeaGreen;
-  font-size: 2em;
-  line-height: 50px;
+  width: 100px;
+  height: 30px;
+  color: #ffffff;
+  background-color: #cd5c5c;
+  font-size: 16px;
+  line-height: 25px;
+  border-radius: 5px;
+  border-color: #ffffff;
+  border-width : 1px;
+  border-style : solid;
   text-align: center;
   -webkit-transition: background-color .6s, -webkit-transform .6s;
-  transition: background-color .6s, transform .6s;
+  transition: background-color .6s, color .6s, transform .6s;
 }
 
 #navTgl:checked + .open {
-  background-color: indianRed;
-  -webkit-transform: translateX(-300px);
-  transform: translateX(-300px);
+  color: #cd5c5c;
+  background-color: #ffffff;
 }
 
 .close {
@@ -63,16 +62,21 @@ label {
   position: fixed;
   overflow: auto;
   top: 0;
-  right: -00px;
-  width: 600px;
+  right: 0px;
+  width: 610px;
   height: 100%;
   margin:0px;
-  padding: 0px;
-  background-color: rgb(0,0,0);
+  padding-top: 50px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  background-color: #cd5c5c;
   -webkit-transform: translateX(300px);
   transform: translateX(300px);
   -webkit-transition: -webkit-transform .6s;
   transition: transform .6s;
+  overflow: hidden;
 }
 
 #navTgl:checked ~ .menu {
@@ -118,35 +122,32 @@ header nav li a {
 
 /* 右側メニューリスト周りの設定 */
 
+#calendar {
+  background-color: #cd5c5c;
+  color: #ffffff;
+  width:300px;
+  height: 100%;
+  max-height: calc(100vh - 50px);
+  margin:0px auto;
+  float: left;
+  text-align:left;
+  overflow: hidden;
+}
+
 div.place {
   background:#fff;
   margin:0px;
   padding: 0px;
-  width:600px;
+  width: 290px;
   height: 100%;
   float: right;
 }
-div.btn{
-  margin:20px auto;
-  float: left;
-}
-
-#calendar {
-  background:#bbb;
-  width:300px;
-  height: 100%;
-  max-height:100vh;
-  margin:0px auto;
-  float: left;
-  text-align:left;
-  overflow:auto;
-}
-
 
 #external-events {
-  background:#aaa;
-  width:300px;
-  max-height:100vh;
+  background: #cd5c5c;
+  color: #ffffff;
+  width:290px;
+  height: calc(100vh - 50px);
   margin: 0px auto;
   float: right;
   text-align:left;
@@ -154,11 +155,16 @@ div.btn{
 }
 
 #external-events .fc-event {
-  margin: 10px 0;
+  background-color: #fff;
+  border-color: #fff;
+  color: #cd5c5c;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  min-height: 60px;
 }
 
 #external-events .selected {
-  margin: 10px 0;
   background:#b22;
   border:#811;
 }
@@ -231,3 +237,23 @@ body {
 }
 
 .gm-style-iw + div {display: none;}
+
+.fc-time-grid{
+  background-color: #ffffff;
+  color: #808080;
+}
+
+.fc-widget-content{
+  border: 0px #ff0000 solid;
+}
+
+.fc-day{
+  background-color: #ffffff;
+}
+
+button.fc-button{
+  background: #cd5c5c !important;
+  background-color: #cd5c5c !important;
+  color: #ffffff;
+  box-shadow: #cd5c5c !important;
+}

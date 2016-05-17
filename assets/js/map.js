@@ -74,9 +74,9 @@ function initialize() {
 
   $('#calendar').fullCalendar({
     header: {
-      left: '',
+      left: 'prev',
       center: 'title',
-      right: ''
+      right: 'next'
     },
     contentHeight: document.getElementById("calendar").clientHeight-60,
     defaultView: 'agendaDay', //初めの表示内容を指定　内容はこちらを参照→ http://fullcalendar.io/docs/views/Available_Views/
@@ -121,6 +121,8 @@ function initialize() {
     }
 
   });
+
+  //$(".fc-head").hide();
 
 
   var search_markers = [];
@@ -297,6 +299,9 @@ function printRegisteredPlaces(){
       'place': place,
       'marker': place["marker"],
       'move': false,
+      borderColor: '#cd5c5c',
+      backgroundColor: '#cd5c5c',
+      textColor: '#ffffff',
     });
 
     // make the event draggable using jQuery UI
@@ -376,8 +381,8 @@ function calcRoute()
             allDay: false,
             start: result.request.transitOptions.departureTime,
             end: new Date(result.request.transitOptions.departureTime.getTime()+total_duration*1000),
-            color: 'white',
-            textColor: 'black',
+            color: '#aaaaaa',
+            textColor: '#ffffff',
             move: true,
             direction: result,
             renderer: directionsRenderer,
