@@ -148,6 +148,7 @@ div.place {
   color: #ffffff;
   width:290px;
   height: calc(100vh - 50px);
+  padding-right: 30px;
   margin: 0px auto;
   float: right;
   text-align:left;
