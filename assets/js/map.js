@@ -29,7 +29,7 @@ function initialize() {
     center: {lat: 35.011770, lng: 135.768036},
     zoom: 13,
     mapTypeControl: false,
-    disableDoubleClickZoom: true,
+    //disableDoubleClickZoom: true,
     styles: stylesArrayMap,
   });
 
@@ -194,12 +194,15 @@ openInfoWindow = function(place){
 
 // クリックイベントを追加
 map.addListener('click', function(e) {
+  /*
   if( infowindow ){
     infowindow.close();
   }
+  */
 });
 
-map.addListener('dblclick', function(e) {
+new LongPress(map, 500);
+google.maps.event.addListener(map, 'longpress', function(e) {
   var marker = new google.maps.Marker({
     map: map,
     position: e.latLng
@@ -218,6 +221,36 @@ map.addListener('dblclick', function(e) {
 
 });
 }
+
+function LongPress(map, length) {
+  this.length_ = length;
+  var me = this;
+  me.map_ = map;
+  me.timeoutId_ = null;
+  google.maps.event.addListener(map, 'mousedown', function(e) {
+    me.onMouseDown_(e);
+  });
+  google.maps.event.addListener(map, 'mouseup', function(e) {
+    me.onMouseUp_(e);
+  });
+  google.maps.event.addListener(map, 'drag', function(e) {
+    me.onMapDrag_(e);
+  });
+};
+LongPress.prototype.onMouseUp_ = function(e) {
+  clearTimeout(this.timeoutId_);
+};
+LongPress.prototype.onMouseDown_ = function(e) {
+  clearTimeout(this.timeoutId_);
+  var map = this.map_;
+  var event = e;
+  this.timeoutId_ = setTimeout(function() {
+    google.maps.event.trigger(map, 'longpress', event);
+  }, this.length_);
+};
+LongPress.prototype.onMapDrag_ = function(e) {
+  clearTimeout(this.timeoutId_);
+};
 
 function addPlace(name, description, marker) {
   if( name == null ){
