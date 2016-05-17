@@ -239,16 +239,23 @@ function LongPress(map, length) {
 };
 LongPress.prototype.onMouseUp_ = function(e) {
   clearTimeout(this.timeoutId_);
+  if( clickTimeout == false && infowindow ){
+    infowindow.close();
+  }
 };
 LongPress.prototype.onMouseDown_ = function(e) {
   clearTimeout(this.timeoutId_);
   var map = this.map_;
+  clickTimeout = false;
+
   var event = e;
   this.timeoutId_ = setTimeout(function() {
+    clickTimeout = true;
     google.maps.event.trigger(map, 'longpress', event);
   }, this.length_);
 };
 LongPress.prototype.onMapDrag_ = function(e) {
+  clickTimeout = true;
   clearTimeout(this.timeoutId_);
 };
 
