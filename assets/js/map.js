@@ -36,7 +36,7 @@ function initialize() {
   directionsDisplay       = new google.maps.DirectionsRenderer({
     map:map,
     polylineOptions:{
-      strokeColor:'red'
+      strokeColor:'#cd5c5c'
     }});
 
     google.maps.Polyline.prototype.setMap=(function(f,r){
@@ -105,6 +105,11 @@ function initialize() {
     },
 
     eventRender: function(event, element) {
+      if( event.move == true){
+        console.log(event);
+        var minutes = ((event.end - event.start)/60000) | 0;
+        $(element).html('<span class="map-icon map-icon-walking"></span> '+ minutes + ' minutes');
+      }
     },
 
     eventClick: function (calEvent, jsEvent, view) {
@@ -364,7 +369,7 @@ function calcRoute()
           var directionsRenderer = new google.maps.DirectionsRenderer(
             {
               polylineOptions: {
-                strokeColor: '#FF0000',
+                strokeColor: '#cd5c5c',
                 strokeWeight: 2,
                 strokeOpacity: 0.7
               },
@@ -377,7 +382,7 @@ function calcRoute()
           directionsRenderers.push(directionsRenderer);
 
           var moveEvent = {
-            title:"Movement",
+            title:'',
             allDay: false,
             start: result.request.transitOptions.departureTime,
             end: new Date(result.request.transitOptions.departureTime.getTime()+total_duration*1000),

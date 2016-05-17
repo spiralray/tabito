@@ -236,8 +236,6 @@ body {
   font-weight: 300;
 }
 
-.gm-style-iw + div {display: none;}
-
 .fc-time-grid{
   background-color: #ffffff;
   color: #808080;
@@ -256,4 +254,19 @@ button.fc-button{
   background-color: #cd5c5c !important;
   color: #ffffff;
   box-shadow: #cd5c5c !important;
+}
+
+.fc-today{
+   background-color: #ffffff !important;
+}
+
+.fc-time{
+  font-size: 12px !important;
+}
+.fc-content{
+  font-size: 12px;
+}
+
+.fc-title {
+  font-size: 16px;
 }
