@@ -36,7 +36,7 @@ function initialize() {
   directionsDisplay       = new google.maps.DirectionsRenderer({
     map:map,
     polylineOptions:{
-      strokeColor:'#cd5c5c'
+      strokeColor:'#ff0000'
     }});
 
     google.maps.Polyline.prototype.setMap=(function(f,r){
@@ -344,8 +344,8 @@ function printRegisteredPlaces(){
       'place': place,
       'marker': place["marker"],
       'move': false,
-      borderColor: '#cd5c5c',
-      backgroundColor: '#cd5c5c',
+      borderColor: '#ff0000',
+      backgroundColor: '#ff0000',
       textColor: '#ffffff',
     });
 
@@ -409,7 +409,7 @@ function calcRoute()
           var directionsRenderer = new google.maps.DirectionsRenderer(
             {
               polylineOptions: {
-                strokeColor: '#cd5c5c',
+                strokeColor: '#ff0000',
                 strokeWeight: 2,
                 strokeOpacity: 0.7
               },
