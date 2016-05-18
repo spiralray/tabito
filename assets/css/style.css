@@ -254,7 +254,8 @@ button.fc-button{
   background: #ff0000 !important;
   background-color: #ff0000 !important;
   color: #ffffff;
-  box-shadow: #ff0000 !important;
+  border-color: #ffffff !important;
+  border-radius: 1px !important;
 }
 
 .fc-today{
