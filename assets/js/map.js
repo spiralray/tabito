@@ -6,7 +6,7 @@ var place_id = 0;
 
 var search_markers = [];
 var searchwindow = null;
-var selected_search_place = null
+var selected_search_marker = null
 
 var directionsRenderers = [];
 
@@ -169,43 +169,46 @@ function initialize() {
 
     // For each place, get the icon, name and location.
     var bounds = new google.maps.LatLngBounds();
-    places.forEach(function(place) {
-      /*
-      var icon = {
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(25, 25)
-    };
-    */
+    places.forEach(
+      function(place) {
+        /*
+        var icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+      };
+      */
 
-    // Create a marker for each place.
-    var search_marker = new google.maps.Marker({
-      map: map,
-      //icon: icon,
-      title: place.name,
-      position: place.geometry.location
-    });
-    search_marker.addListener('click', function() {
-      selected_search_place = this;
-      openSearchWindow(this);
-    });
-    search_markers.push(search_marker);
+      // Create a marker for each place.
+      var search_marker = new google.maps.Marker({
+        map: map,
+        //icon: icon,
+        title: place.name,
+        position: place.geometry.location
+      });
+      search_marker.addListener('click', function() {
+        selected_search_marker = this;
+        openSearchWindow(this);
+      });
+      search_markers.push(search_marker);
 
-    if (place.geometry.viewport) {
-      // Only geocodes have viewport.
-      bounds.union(place.geometry.viewport);
-    } else {
-      bounds.extend(place.geometry.location);
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+
+
+
     }
-
-    if( search_markers.length == 1 ){
-      selected_search_place = search_markers[0];
-      openSearchWindow(search_markers[0]);
-    }
-
-  });
+  );
+  if( search_markers.length == 1 ){
+    selected_search_marker = search_markers[0];
+    openSearchWindow(search_markers[0]);
+  }
   map.fitBounds(bounds);
 });
 
@@ -228,10 +231,21 @@ openSearchWindow = function(marker){
 }
 
 pinThisPlace = function(){
-  var new_place = addPlace(selected_search_place.title, '', selected_search_place);
+  var marker = new google.maps.Marker({
+    map: map,
+    position: selected_search_marker.position
+  });
+  var new_place = addPlace(selected_search_marker.title, '', marker);
+
   for(var i=0; i<search_markers.length; i++){
-    if( search_markers[i] != selected_search_place ) search_markers[i].setMap(null);
+    search_markers[i].setMap(null);
   }
+  search_markers = [];
+
+  marker.addListener('click', function() {
+    var place = getPlaceByMarker( this );
+    openInfoWindow(place);
+  });
 
   searchwindow.close();
   openInfoWindow(new_place);
@@ -256,7 +270,7 @@ google.maps.event.addListener(map, 'longpress', function(e) {
   var place = addPlace(null, "", marker );
 
   marker.addListener('click', function() {
-    var place = getPlaceByMarker( marker );
+    var place = getPlaceByMarker( this );
     openInfoWindow(place);
   });
 
