@@ -4,6 +4,10 @@ var places = [];
 var infowindow = null;
 var place_id = 0;
 
+var search_markers = [];
+var searchwindow = null;
+var selected_search_place = null
+
 var directionsRenderers = [];
 
 function initialize() {
@@ -20,6 +24,21 @@ function initialize() {
     },
     error:function() {
       alert('Failed loading register_window.txt');
+    }
+  });
+
+  $.ajax({
+    type: 'GET',
+    cache : false,
+    url: 'search_window.txt',
+    dataType: 'text',
+    success: function(data) {
+      searchwindow = new google.maps.InfoWindow({
+        content: data
+      });
+    },
+    error:function() {
+      alert('Failed loading search_window.txt');
     }
   });
 
@@ -130,7 +149,6 @@ function initialize() {
   //$(".fc-head").hide();
 
 
-  var search_markers = [];
   // Bias the SearchBox results towards current map's viewport.
   map.addListener('bounds_changed', function() {
     searchBox.setBounds(map.getBounds());
@@ -163,12 +181,17 @@ function initialize() {
     */
 
     // Create a marker for each place.
-    search_markers.push(new google.maps.Marker({
+    var search_marker = new google.maps.Marker({
       map: map,
       //icon: icon,
       title: place.name,
       position: place.geometry.location
-    }));
+    });
+    search_marker.addListener('click', function() {
+      selected_search_place = this;
+      openSearchWindow(this);
+    });
+    search_markers.push(search_marker);
 
     if (place.geometry.viewport) {
       // Only geocodes have viewport.
@@ -176,6 +199,12 @@ function initialize() {
     } else {
       bounds.extend(place.geometry.location);
     }
+
+    if( search_markers.length == 1 ){
+      selected_search_place = search_markers[0];
+      openSearchWindow(search_markers[0]);
+    }
+
   });
   map.fitBounds(bounds);
 });
@@ -191,6 +220,22 @@ openInfoWindow = function(place){
   document.getElementById("btn_place_description").value = place["description"];
 }
 
+openSearchWindow = function(marker){
+  infowindow.close();
+  searchwindow.open(map, marker);
+
+  document.getElementById("search_title").value = marker.title;
+}
+
+pinThisPlace = function(){
+  var new_place = addPlace(selected_search_place.title, '', selected_search_place);
+  for(var i=0; i<search_markers.length; i++){
+    if( search_markers[i] != selected_search_place ) search_markers[i].setMap(null);
+  }
+
+  searchwindow.close();
+  openInfoWindow(new_place);
+}
 
 // クリックイベントを追加
 map.addListener('click', function(e) {
@@ -239,8 +284,9 @@ function LongPress(map, length) {
 };
 LongPress.prototype.onMouseUp_ = function(e) {
   clearTimeout(this.timeoutId_);
-  if( clickTimeout == false && infowindow ){
-    infowindow.close();
+  if( clickTimeout == false ){
+    if( infowindow ) infowindow.close();
+    if( searchwindow ) searchwindow.close();
   }
 };
 LongPress.prototype.onMouseDown_ = function(e) {
