@@ -93,25 +93,30 @@ function initialize() {
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   (function fixInfoWindow() {
-  	var set = google.maps.InfoWindow.prototype.set;
-  	google.maps.InfoWindow.prototype.set = function(key, val) {
-  		if (key === "map") {
-  			if (! this.get("noSuppress") && this.content ) {
-          //console.log(this);
-          var place_name = this.content.innerHTML.substr(0,this.content.innerHTML.indexOf("</div>"));
-          place_name = place_name.substr(place_name.lastIndexOf(">")+1);
-          //console.log(place_name);
-          //console.log(this.position);
 
-          infowindow.close();
-          searchwindow.open(map, this);
-          document.getElementById("search_title").value = place_name;
+    google.maps.InfoWindow.prototype.isOpen = function(){
+      var map = this.getMap();
+      return (map !== null && typeof map !== "undefined");
+    }
 
-          return;
-  			}
-  		}
-  		set.apply(this, arguments);
-  	}
+    var open = google.maps.InfoWindow.prototype.open;
+    google.maps.InfoWindow.prototype.open = function(map, marker) {
+      if (! this.get("noSuppress") && this.content ) {
+        console.log(this);
+        var place_name = this.content.innerHTML.substr(0,this.content.innerHTML.indexOf("</div>"));
+        place_name = place_name.substr(place_name.lastIndexOf(">")+1);
+        //console.log(place_name);
+        //console.log(this.position);
+
+        infowindow.close();
+        searchwindow.open(map, marker);
+        searchwindow.setPosition(this.position);
+        document.getElementById("search_title").value = place_name;
+        this.setMap(null);
+        return;
+      }
+      open.apply(this, arguments);
+    }
   })();
 
 
