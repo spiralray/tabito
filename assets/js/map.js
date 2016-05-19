@@ -19,7 +19,8 @@ function initialize() {
     dataType: 'text',
     success: function(data) {
       infowindow = new google.maps.InfoWindow({
-        content: data
+        content: data,
+        noSuppress: true
       });
     },
     error:function() {
@@ -34,7 +35,8 @@ function initialize() {
     dataType: 'text',
     success: function(data) {
       searchwindow = new google.maps.InfoWindow({
-        content: data
+        content: data,
+        noSuppress: true
       });
     },
     error:function() {
@@ -89,6 +91,28 @@ function initialize() {
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  (function fixInfoWindow() {
+  	var set = google.maps.InfoWindow.prototype.set;
+  	google.maps.InfoWindow.prototype.set = function(key, val) {
+  		if (key === "map") {
+  			if (! this.get("noSuppress") && this.content ) {
+          //console.log(this);
+          var place_name = this.content.innerHTML.substr(0,this.content.innerHTML.indexOf("</div>"));
+          place_name = place_name.substr(place_name.lastIndexOf(">")+1);
+          //console.log(place_name);
+          //console.log(this.position);
+
+          infowindow.close();
+          searchwindow.open(map, this);
+          document.getElementById("search_title").value = place_name;
+
+          return;
+  			}
+  		}
+  		set.apply(this, arguments);
+  	}
+  })();
 
 
   $('#calendar').fullCalendar({
@@ -169,46 +193,43 @@ function initialize() {
 
     // For each place, get the icon, name and location.
     var bounds = new google.maps.LatLngBounds();
-    places.forEach(
-      function(place) {
-        /*
-        var icon = {
-        url: place.icon,
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
-      };
-      */
+    places.forEach(function(place) {
+      /*
+      var icon = {
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(25, 25)
+    };
+    */
 
-      // Create a marker for each place.
-      var search_marker = new google.maps.Marker({
-        map: map,
-        //icon: icon,
-        title: place.name,
-        position: place.geometry.location
-      });
-      search_marker.addListener('click', function() {
-        selected_search_marker = this;
-        openSearchWindow(this);
-      });
-      search_markers.push(search_marker);
+    // Create a marker for each place.
+    var search_marker = new google.maps.Marker({
+      map: map,
+      //icon: icon,
+      title: place.name,
+      position: place.geometry.location
+    });
+    search_marker.addListener('click', function() {
+      selected_search_marker = this;
+      openSearchWindow(this);
+    });
+    search_markers.push(search_marker);
 
-      if (place.geometry.viewport) {
-        // Only geocodes have viewport.
-        bounds.union(place.geometry.viewport);
-      } else {
-        bounds.extend(place.geometry.location);
-      }
-
-
-
+    if (place.geometry.viewport) {
+      // Only geocodes have viewport.
+      bounds.union(place.geometry.viewport);
+    } else {
+      bounds.extend(place.geometry.location);
     }
-  );
-  if( search_markers.length == 1 ){
-    selected_search_marker = search_markers[0];
-    openSearchWindow(search_markers[0]);
-  }
+
+    if( search_markers.length == 1 ){
+      selected_search_marker = search_markers[0];
+      openSearchWindow(search_markers[0]);
+    }
+
+  });
   map.fitBounds(bounds);
 });
 
@@ -233,14 +254,13 @@ openSearchWindow = function(marker){
 pinThisPlace = function(){
   var marker = new google.maps.Marker({
     map: map,
-    position: selected_search_marker.position
+    position: searchwindow.position
   });
-  var new_place = addPlace(selected_search_marker.title, '', marker);
-
+  var new_place = addPlace(document.getElementById("search_title").value, '', marker);
   for(var i=0; i<search_markers.length; i++){
     search_markers[i].setMap(null);
   }
-  search_markers = [];
+  search_markers =
 
   marker.addListener('click', function() {
     var place = getPlaceByMarker( this );
