@@ -265,7 +265,7 @@ pinThisPlace = function(){
   for(var i=0; i<search_markers.length; i++){
     search_markers[i].setMap(null);
   }
-  search_markers =
+  search_markers = [];
 
   marker.addListener('click', function() {
     var place = getPlaceByMarker( this );
