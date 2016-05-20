@@ -158,6 +158,19 @@ function initialize() {
         var minutes = ((event.end - event.start)/60000) | 0;
         $(element).html('<span class="map-icon map-icon-walking"></span> '+ minutes + ' minutes');
       }
+      else{
+        var str = $(element)[0].innerHTML;
+        str = str.replace('<div class="fc-content">','<div class="fc-content"><div class="event-left">');
+        str = str.replace(/<div class="fc-title">[\s\S]*?<\/div>/i,
+          '<div class="fc-title">' + event.title + '<\/div>'
+          + '<div class="fc-description">' + event.place.description + '<\/div>'
+          + '<\/div>'
+          + '<div class="event-right">'
+          + '<button type="button" class="btn btn-default" onclick="removeEvent('+ "'" + event._id+ "'" + ');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
+          + '<\/div>'
+        );
+        $(element).html(str);
+      }
     },
 
     eventClick: function (calEvent, jsEvent, view) {
@@ -237,6 +250,12 @@ function initialize() {
   });
   map.fitBounds(bounds);
 });
+
+removeEvent = function(id){
+  console.log(id);
+  $('#calendar').fullCalendar("removeEvents", id);
+  calcRoute();
+}
 
 openInfoWindow = function(place){
   infowindow.open(map, place["marker"]);
