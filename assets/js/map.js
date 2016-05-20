@@ -358,6 +358,19 @@ function deletePlace(id){
   for(var i=0; i<places.length; i++){
     if( places[i].id == id ){
 
+      try{
+        var id = document.getElementById("selected_place_id").value;
+
+        if( id == places[i].id ){
+          infowindow.close();
+        }
+      }
+      catch (e) {
+        console.log('Infowindow is closed.');
+      }
+
+      places[i].marker.setMap(null);
+
       $('#calendar').fullCalendar('clientEvents', function(clEvent){
         if( typeof clEvent.place !== "undefined" && clEvent.place.id == places[i].id){
           $('#calendar').fullCalendar('removeEvents',clEvent._id);
@@ -391,9 +404,6 @@ function getPlaceByMarker(marker){
 
 function deleteThisPlace(){
   var id = document.getElementById("selected_place_id").value;
-  var place = getPlaceById(id);
-
-  place["marker"].setMap(null);
   deletePlace(id);
 }
 
@@ -415,7 +425,10 @@ function placeInfoUpdated(){
 function printRegisteredPlaces(){
   var str = "";
   for(var i=0; i<places.length; i++){
-    str += '<div class="fc-event unselected" id="p' + places[i]["id"] + '">' + places[i]["name"] + '<br>\n' + places[i]["description"] + '</div>';
+    str += '<div class="fc-event unselected" id="p' + places[i]["id"] + '">'
+          + '<div class="place-left">' + places[i]["name"] + '<br>\n' + places[i]["description"] + '</div>'
+          + '<div class="place-right">'+ '<button type="button" class="btn btn-default" onclick="deletePlace(' + places[i]["id"] + ');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' + '</div>'
+        +'</div>';
   }
   document.getElementById("registered-places").innerHTML = str;
 
@@ -440,6 +453,13 @@ function printRegisteredPlaces(){
       scroll: false,
       revert: true,      // will cause the event to go back to its
       revertDuration: 0  //  original position after the drag
+    });
+
+    $(this).click(function (e) {
+      if( $(e.target).is("DIV") ){
+        map.setCenter($(this).data('event').marker.getPosition());
+        openInfoWindow($(this).data('event').place);
+      }
     });
 
   });
