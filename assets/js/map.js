@@ -278,7 +278,8 @@ openSearchWindow = function(marker){
 pinThisPlace = function(){
   var marker = new google.maps.Marker({
     map: map,
-    position: searchwindow.position
+    position: searchwindow.position,
+    icon: "http://labs.google.com/ridefinder/images/mm_20_red.png"
   });
   var new_place = addPlace(document.getElementById("search_title").value, '', marker);
   for(var i=0; i<search_markers.length; i++){
@@ -308,7 +309,8 @@ new LongPress(map, 500);
 google.maps.event.addListener(map, 'longpress', function(e) {
   var marker = new google.maps.Marker({
     map: map,
-    position: e.latLng
+    position: e.latLng,
+    icon: "http://labs.google.com/ridefinder/images/mm_20_red.png"
   });
 
   var place = addPlace(null, "", marker );
@@ -484,6 +486,17 @@ function printRegisteredPlaces(){
   });
 }
 
+function setMarkerIcons(places,events){
+
+  for(var i=0; i<places.length; i++){
+    places[i].marker.setIcon("http://labs.google.com/ridefinder/images/mm_20_red.png");
+  }
+
+  for (var i = 0; i < events.length; i++) {
+    events[i].marker.setIcon({scaledSize : new google.maps.Size(40, 40), url:'img/40_40/flag-' + ("00" +(i+1)).slice(-2) +'.png'});
+  }
+}
+
 function calcRoute()
 {
   console.log("calcRoute");
@@ -507,6 +520,9 @@ function calcRoute()
     if( a._start > b._start ) return 1;
     return 0;
   });
+
+  setMarkerIcons(places,events);
+
   //console.log(events);
   for (var i = 0; i < events.length-1; i++) {
     //console.log( events[i].title + ' ' + events[i]._start );
