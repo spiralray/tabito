@@ -108,7 +108,7 @@ function initialize() {
       document.getElementById("area_name").innerHTML
       = message;
     }
-  })
+  });
 
   (function fixInfoWindow() {
 
