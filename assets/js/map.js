@@ -126,7 +126,7 @@ function initialize() {
       center: 'title',
       right: 'next'
     },
-    contentHeight: document.getElementById("calendar").clientHeight-60,
+    height: document.getElementById("calendar").clientHeight-5,
     defaultView: 'agendaDay', //初めの表示内容を指定　内容はこちらを参照→ http://fullcalendar.io/docs/views/Available_Views/
     timezone: 'local',
     allDaySlot: false,
