@@ -493,7 +493,7 @@ function setMarkerIcons(places,events){
   }
 
   for (var i = 0; i < events.length; i++) {
-    events[i].marker.setIcon({scaledSize : new google.maps.Size(40, 40), url:'img/40_40/flag-' + ("00" +(i+1)).slice(-2) +'.png'});
+    events[i].marker.setIcon({scaledSize : new google.maps.Size(31, 27), url:'img/40_40/flags-' + ("00" +(i+1)).slice(-2) +'.png'});
   }
 }
 
