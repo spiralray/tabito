@@ -304,3 +304,7 @@ button.fc-button{
   width:30px;
   padding: 5px;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}
