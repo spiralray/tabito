@@ -2,7 +2,7 @@
 
 #map {
   position:absolute;
-  width: calc(100% - 290px);
+  width: calc(100% - 310px);
   height:100%;
   left:0%;
   top:0%;
@@ -19,7 +19,7 @@
 label.open {
   cursor: pointer;
   position: fixed;
-  top: 10px;
+  top: 60px;
   right: 10px;
   z-index: 2;
   width: 100px;
@@ -55,13 +55,21 @@ label.open {
   background-color: rgba(0,0,0,.3);
 }
 
+.navbar{
+  z-index: 100;
+}
+
+#wrapper{
+  border-top: 50px;
+}
+
 /* 右側メニュー周りの設定 */
 
 .menu {
   z-index: 1;
   position: fixed;
   overflow: auto;
-  top: 0;
+  top: 50px;
   right: 0px;
   width: 610px;
   height: 100%;
