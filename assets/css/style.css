@@ -3,7 +3,7 @@
 #map {
   position:absolute;
   width: calc(100% - 310px);
-  height:100%;
+  height:calc(100% - 50px);
   left:0%;
   top:50px;
   background-color: Gray;
@@ -72,7 +72,7 @@ label.open {
   top: 50px;
   right: 0px;
   width: 610px;
-  height: 100%;
+  height: calc(100% - 50px);
   margin:0px;
   padding-top: 50px;
   padding-bottom: 0px;
