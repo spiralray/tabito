@@ -8,6 +8,8 @@ var search_markers = [];
 var searchwindow = null;
 var selected_search_marker = null
 
+var location_marker = null;
+
 var directionsRenderers = [];
 
 function initialize() {
@@ -91,6 +93,22 @@ function initialize() {
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var input = document.getElementById('btn-current-loc');
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(input);
+
+  $('#btn-current-loc').click(function(){
+    if (navigator.geolocation) {
+      // 現在の位置情報取得を実施 正常に位置情報が取得できると、
+      // successCallbackがコールバックされます。
+      navigator.geolocation.getCurrentPosition
+      (successCallback,errorCallback);
+    } else {
+      message = "本ブラウザではGeolocationが使えません";
+      document.getElementById("area_name").innerHTML
+      = message;
+    }
+  })
 
   (function fixInfoWindow() {
 
@@ -250,6 +268,29 @@ function initialize() {
   });
   map.fitBounds(bounds);
 });
+
+// ( 2 )位置情報が正常に取得されたら
+function successCallback(pos) {
+  var position = new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+
+  // 位置情報が取得出来たらGoogle Mapを表示する
+  map.setCenter(position);
+  map.setZoom(17);
+  if( location_marker ){
+    location_marker.setPosition(position);
+  }
+  else{
+    location_marker = new google.maps.Marker({
+      map: map,
+      position: position,
+      icon: "http://labs.google.com/ridefinder/images/mm_20_gray.png"
+    });
+  }
+}
+
+function errorCallback(error) {
+  alert("Failed getting current location.");
+}
 
 removeEvent = function(id){
   console.log(id);
