@@ -43,7 +43,7 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="#">Ask</a></li>
-					<li><a href="#">Draw</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#myModalCanvas">Draw</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Icon<span class="glyphicon glyphicon-down" aria-hidden="true"></span> <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -61,6 +61,21 @@
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
 	</nav>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalCanvas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
+			<div class="modal-content"  style="width:800px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="canvas"><canvas id="myCanvas"></canvas></div>
+					<input id="delete_button" type="button" value="delete"/>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal -->
 	<div class="modal fade" id="myModalAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -326,6 +326,10 @@ button.fc-button{
   padding: 5px;
 }
 
+/* お絵描きする部分のCSS */
+.canvas {width:750px; height:600px; border:1px solid #ccc;}
+.canvas canvas {width:750px; height:600px;}
+
 ::-webkit-scrollbar {
     display: none;
 }
