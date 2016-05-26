@@ -77,7 +77,7 @@ window.addEventListener("load", function () {
   }
 
   // 削除ボタンの動作
-  $("delete_button").click(function () {
+  $("#delete_button").click(function () {
     c.clearRect(0, 0, $(canvas).width(), $(canvas).height());
   });
 
