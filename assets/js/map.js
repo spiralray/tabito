@@ -128,6 +128,13 @@ function initialize() {
     styles: stylesArrayMap,
   });
 
+  if (navigator.geolocation) {
+    // 現在の位置情報取得を実施 正常に位置情報が取得できると、
+    // successCallbackがコールバックされます。
+    navigator.geolocation.getCurrentPosition
+    (successCallback,errorCallback);
+  }
+
   directionsDisplay       = new google.maps.DirectionsRenderer({
     map:map,
     polylineOptions:{
