@@ -3,9 +3,9 @@
 #map {
   position:absolute;
   width: calc(100% - 310px);
-  height:calc(100% - 50px);
+  height:calc(100% - 60px);
   left:0%;
-  top:50px;
+  top:60px;
   background-color: Gray;
 }
 
@@ -19,7 +19,7 @@
 label.navOpen {
   cursor: pointer;
   position: fixed;
-  top: 60px;
+  top: 70px;
   right: 10px;
   z-index: 2;
   width: 100px;
@@ -46,7 +46,7 @@ label.navOpen {
   pointer-events: none;
   z-index: 1;
   width: 30px;
-  height: 50px;
+  height: 60px;
   transition: background-color .6s;
 }
 
@@ -60,7 +60,7 @@ label.navOpen {
 }
 
 #wrapper{
-  border-top: 50px;
+  border-top: 60px;
 }
 
 /* 右側メニュー周りの設定 */
@@ -69,12 +69,12 @@ label.navOpen {
   z-index: 1;
   position: fixed;
   overflow: auto;
-  top: 50px;
+  top: 60px;
   right: 0px;
   width: 610px;
-  height: calc(100% - 50px);
+  height: calc(100% - 60px);
   margin:0px;
-  padding-top: 50px;
+  padding-top: 60px;
   padding-bottom: 0px;
   padding-left: 5px;
   padding-right: 5px;
@@ -135,7 +135,7 @@ header nav li a {
   color: #ffffff;
   width:300px;
   height: 100%;
-  max-height: calc(100vh - 50px);
+  max-height: calc(100vh - 60px);
   margin:0px auto;
   float: left;
   text-align:left;
@@ -155,7 +155,7 @@ div.place {
   background: #ff0000;
   color: #ffffff;
   width:290px;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 60px);
   padding-right: 30px;
   margin: 0px auto;
   float: right;
@@ -180,7 +180,7 @@ div.place {
 
 #external-events .unselected {
   cursor: pointer;
-  width: 250px;
+  width: 260px;
 }
 
 
@@ -327,9 +327,13 @@ button.fc-button{
 }
 
 /* お絵描きする部分のCSS */
-.canvas {width:750px; height:600px; border:1px solid #ccc;}
-.canvas canvas {width:750px; height:600px;}
+.canvas {width:760px; height:600px; border:1px solid #ccc;}
+.canvas canvas {width:760px; height:600px;}
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+.navbar{
+  padding-top: 10px;
 }
