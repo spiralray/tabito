@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-label.open {
+label.navOpen {
   cursor: pointer;
   position: fixed;
   top: 60px;
@@ -37,12 +37,12 @@ label.open {
   transition: background-color .6s, color .6s, transform .6s;
 }
 
-#navTgl:checked + .open {
+#navTgl:checked + .navOpen {
   color: #ff0000;
   background-color: #ffffff;
 }
 
-.close {
+.navClose {
   pointer-events: none;
   z-index: 1;
   width: 30px;
@@ -50,7 +50,7 @@ label.open {
   transition: background-color .6s;
 }
 
-#navTgl:checked ~ .close {
+#navTgl:checked ~ .navClose {
   pointer-events: auto;
   background-color: rgba(0,0,0,.3);
 }
