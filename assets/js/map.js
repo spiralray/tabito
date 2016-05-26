@@ -69,8 +69,10 @@ window.addEventListener("load", function () {
   function scrollX(){return document.documentElement.scrollLeft || document.body.scrollLeft;}
   function scrollY(){return document.documentElement.scrollTop || document.body.scrollTop;}
   function getPosT (event) {
-    var mouseX = event.touches[0].clientX - $(canvas).offset().left + scrollX();
-    var mouseY = event.touches[0].clientY - $(canvas).offset().top + scrollY();
+    //var mouseX = event.touches[0].clientX - $(canvas).offset().left + scrollX();
+    //var mouseY = event.touches[0].clientY - $(canvas).offset().top + scrollY();
+    var mouseX = event.touches[0].clientX - $(canvas).offset().left;
+    var mouseY = event.touches[0].clientY - $(canvas).offset().top;
     return {x:mouseX, y:mouseY};
   }
 
