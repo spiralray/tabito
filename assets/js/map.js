@@ -121,7 +121,7 @@ function initialize() {
   printRegisteredPlaces();
 
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 35.011770, lng: 135.768036},
+    center: {lat: 37.4293778, lng: -122.175664},
     zoom: 13,
     mapTypeControl: false,
     //disableDoubleClickZoom: true,
