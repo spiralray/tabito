@@ -35,12 +35,18 @@ window.addEventListener("load", function () {
     console.log("touchstart");
     drawing = true;
     oldPos = getPosT(event);
+
+    $(window).on('touchmove.noScroll', function(e) {
+      e.preventDefault();
+    });
   }, false);
 
   // タップ終了時に、絵を描く後処理を行う
   canvas.addEventListener("touchend", function () {
     console.log("touchend");
     drawing = false;
+
+    $(window).off('.noScroll');
   }, false);
 
   // gestureイベント（２本指以上で触ると発生するやつ）の
@@ -48,6 +54,8 @@ window.addEventListener("load", function () {
   canvas.addEventListener("gestureend", function () {
     console.log("mouseout");
     drawing = false;
+
+    $(window).off('.noScroll');
   }, false);
 
   // 実際に絵を描く処理
