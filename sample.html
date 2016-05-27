@@ -42,7 +42,7 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="#"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Ask</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#myModalAsk"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Ask</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#myModalCanvas"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Draw</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Icon<span class="glyphicon glyphicon-down" aria-hidden="true"></span> <span class="caret"></span></a>
@@ -61,6 +61,12 @@
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
 	</nav>
+
+	<div class="modal fade" id="myModalAsk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
+			<img src="img/ask.png" width="750px">
+		</div>
+	</div>
 
 	<!-- Modal -->
 	<div class="modal fade" id="myModalCanvas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
