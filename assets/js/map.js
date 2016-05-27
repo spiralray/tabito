@@ -370,7 +370,7 @@ function successCallback(pos) {
     location_marker = new google.maps.Marker({
       map: map,
       position: position,
-      icon: "http://labs.google.com/ridefinder/images/mm_20_gray.png"
+      icon: {scaledSize : new google.maps.Size(17, 30), url:'img/location.png'}
     });
   }
 }
@@ -407,7 +407,7 @@ pinThisPlace = function(){
   var marker = new google.maps.Marker({
     map: map,
     position: searchwindow.position,
-    icon: "http://labs.google.com/ridefinder/images/mm_20_red.png"
+    icon: {scaledSize : new google.maps.Size(31, 27), url:'img/40_40/flags-gray.png'}
   });
   var new_place = addPlace(document.getElementById("search_title").value, '', marker);
   for(var i=0; i<search_markers.length; i++){
@@ -438,7 +438,7 @@ google.maps.event.addListener(map, 'longpress', function(e) {
   var marker = new google.maps.Marker({
     map: map,
     position: e.latLng,
-    icon: "http://labs.google.com/ridefinder/images/mm_20_red.png"
+    icon: {scaledSize : new google.maps.Size(31, 27), url:'img/40_40/flags-gray.png'}
   });
 
   var place = addPlace(null, "", marker );
@@ -617,7 +617,7 @@ function printRegisteredPlaces(){
 function setMarkerIcons(places,events){
 
   for(var i=0; i<places.length; i++){
-    places[i].marker.setIcon("http://labs.google.com/ridefinder/images/mm_20_red.png");
+    places[i].marker.setIcon({scaledSize : new google.maps.Size(31, 27), url:'img/40_40/flags-gray.png'});
   }
 
   for (var i = 0; i < events.length; i++) {
