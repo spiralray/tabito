@@ -44,19 +44,7 @@
 				<ul class="nav navbar-nav">
 					<li><a href="#" data-toggle="modal" data-target="#myModalAsk"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Ask</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#myModalCanvas"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Draw</a></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Icon<span class="glyphicon glyphicon-down" aria-hidden="true"></span> <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#" data-toggle="modal" data-target="#myModalAll">All</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModalRestaurant">Restaurant</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModalTransport">Transport</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModalMonument">Monuments and Temples</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModalBeach">Beach</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModalForest">Forest</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModalPasport">Pasport and documentation</a></li>
-						</ul>
-					</li>
+					<li><a href="#" data-toggle="modal" data-target="#myModalIcon">Icon</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
@@ -84,104 +72,14 @@
 	</div>
 
 	<!-- Modal -->
-	<div class="modal fade" id="myModalAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade" id="myModalIcon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
 			<div class="modal-content" style="width:800px;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
-					<a name="restaurant"></a>
-					<img src="img/icons/restaurant.png" width="750px">
-					<img src="img/icons/transport.png" width="750px">
-					<img src="img/icons/monument.png" width="750px">
-					<img src="img/icons/beach.png" width="750px">
-					<img src="img/icons/forest.png" width="750px">
-					<img src="img/icons/pasport.png" width="750px">
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="myModalRestaurant" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
-			<div class="modal-content"  style="width:800px;">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<a name="restaurant"></a>
-					<img src="img/icons/restaurant.png" width="750px">
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="myModalTransport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
-			<div class="modal-content"  style="width:800px;">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<a name="restaurant"></a>
-					<img src="img/icons/transport.png" width="750px">
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="myModalMonument" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
-			<div class="modal-content"  style="width:800px;">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<a name="restaurant"></a>
-					<img src="img/icons/monument.png" width="750px">
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="myModalBeach" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
-			<div class="modal-content"  style="width:800px;">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<a name="restaurant"></a>
-					<img src="img/icons/beach.png" width="750px">
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="myModalForest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
-			<div class="modal-content"  style="width:800px;">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<a name="restaurant"></a>
-					<img src="img/icons/forest.png" width="750px">
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="myModalPasport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document" style="width:800px; margin-left:auto !important; margin-right:auto !important; ">
-			<div class="modal-content"  style="width:800px;">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<a name="restaurant"></a>
-					<img src="img/icons/pasport.png" width="750px">
+					<img src="img/icon.png" width="750px">
 				</div>
 			</div>
 		</div>
