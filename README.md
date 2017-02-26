@@ -8,12 +8,12 @@ Tabito is a map application that help your trip.
 
 Then, Tabito tells you how to get to these places and how many minutes does it take.
 
-# Enabled devices
+# Supported devices
 
 We tested this application on following devices.
 
 - iPad Pro 12inch
-- iPad mini
+- iPad Pro 9.7inch
 
 # Resources
 - [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/)
